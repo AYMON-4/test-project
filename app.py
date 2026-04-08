@@ -128,7 +128,7 @@ with tab1:
 with tab2:
     st.subheader("تحليل بيانات العملاء دفعة واحدة")
     st.write("قم برفع ملف (CSV أو Excel) يحتوي على بيانات العملاء للحصول على التنبؤات والرسومات البيانية فوراً.")
-    st.info("تنبيه: يجب أن يحتوي الملف على الأعمدة التالية بالترتيب: Age, Gender, AnnualIncome, NumberOfPurchases, ProductCategory, TimeSpentOnWebsite, LoyaltyProgram, DiscountsAvailed" سيخضع الملف لعملية معالجة مسبقة  لتهيئته وضمان دقة النتائج)
+    st.info("تنبيه: يجب أن يحتوي الملف على الأعمدة التالية بالترتيب: Age, Gender, AnnualIncome, NumberOfPurchases, ProductCategory, TimeSpentOnWebsite, LoyaltyProgram, DiscountsAvailed سيخضع الملف لعملية معالجة مسبقة  لتهيئته وضمان دقة النتائج" )
     
     uploaded_file = st.file_uploader("اختر ملف البيانات", type=['csv', 'xlsx'])
     
