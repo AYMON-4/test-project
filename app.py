@@ -137,15 +137,14 @@ with tab2:
     
     st.info("""
     تنبيه: يجب أن يحتوي الملف على الأعمدة التالية بالترتيب:
-    
     Age, Gender, AnnualIncome, NumberOfPurchases, ProductCategory, TimeSpentOnWebsite, LoyaltyProgram, DiscountsAvailed
-    
     علماً بأنه سوف يتم معالجة الملف لتهيئته وضمان قابليته للمعالجة بنجاح.
     """)
     
-    uploaded_file = st.file_uploader("اختر ملف البيانات", type=['csv', 'xlsx'])
+    # 1. خيار الرفع من الجهاز
+    uploaded_file = st.file_uploader("اختر ملف البيانات من جهازك", type=['csv', 'xlsx'])
     
-    # --- إضافة زر توليد الملف التجريبي ---
+    # 2. زر توليد الملف التجريبي
     sample_data = pd.DataFrame({
         'Age': np.random.randint(18, 80, 1000),
         'Gender': np.random.choice([0, 1], 1000),
@@ -165,30 +164,52 @@ with tab2:
         mime='text/csv',
         use_container_width=True
     )
-    # -----------------------------------
+    
+    st.divider()
 
+    # 3. خيار التحميل من ملفات GitHub المحفوظة
+    st.markdown("<p style='text-align: right; font-weight: bold;'>أو اختر ملفاً جاهزاً من المستودع:</p>", unsafe_allow_html=True)
+    
+    # قائمة بالملفات الموجودة في جيت هاب بناءً على الصورة
+    github_files = {
+        "اختر ملفاً...": None,
+        "بيانات العملاء (customer_purchase_data)": "customer_purchase_data.csv",
+        "بيانات العملاء الجاهزة (ready_customerData)": "ready_customerData.csv"
+    }
+    
+    selected_github_file = st.selectbox("الملفات المتاحة في النظام:", options=list(github_files.keys()))
+
+    # --- تحديد مصدر البيانات (من الرفع أو من جيت هاب) ---
+    df = None
+    
     if uploaded_file is not None:
+        if uploaded_file.name.endswith('.csv'):
+            df = pd.read_csv(uploaded_file)
+        else:
+            df = pd.read_excel(uploaded_file)
+            
+    elif github_files[selected_github_file] is not None:
+        file_path = github_files[selected_github_file]
         try:
-            # قراءة الملف
-            if uploaded_file.name.endswith('.csv'):
-                df = pd.read_csv(uploaded_file)
+            if file_path.endswith('.csv'):
+                df = pd.read_csv(file_path)
             else:
-                df = pd.read_excel(uploaded_file)
+                df = pd.read_excel(file_path)
+        except Exception as e:
+            st.error(f"لم يتم العثور على الملف '{file_path}' في المستودع. تأكد من رفعه إلى GitHub بجانب ملف app.py")
 
+    # --- استكمال المعالجة والتحليل إذا تم العثور على بيانات ---
+    if df is not None:
+        try:
             # ---------------------------------------------------------
-            # دالة المعالجة والتنظيف التلقائي (النسخة الصارمة والنهائية)
+            # دالة المعالجة والتنظيف التلقائي
             # ---------------------------------------------------------
             def clean_and_prepare_data(data):
-                # 1. إزالة المسافات الفارغة من أسماء الأعمدة
                 data.columns = data.columns.str.strip()
-                
-                # 2. معالجة عمود النوع (Gender)
                 if 'Gender' in data.columns:
                     data['Gender'] = data['Gender'].astype(str).str.strip().str.lower()
                     gender_map = {'male': 0, 'female': 1, 'ذكر': 0, 'أنثى': 1, '0': 0, '1': 1, '0.0': 0, '1.0': 1}
                     data['Gender'] = data['Gender'].map(gender_map).fillna(0).astype(int)
-                
-                # 3. معالجة عمود فئة المنتجات (ProductCategory)
                 if 'ProductCategory' in data.columns:
                     data['ProductCategory'] = data['ProductCategory'].astype(str).str.strip().str.lower()
                     cat_map = {
@@ -200,18 +221,13 @@ with tab2:
                         '0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '0.0': 0, '1.0': 1, '2.0': 2, '3.0': 3, '4.0': 4
                     }
                     data['ProductCategory'] = data['ProductCategory'].map(cat_map).fillna(4).astype(int)
-                
-                # 4. معالجة عمود برنامج الولاء (LoyaltyProgram)
                 if 'LoyaltyProgram' in data.columns:
                     data['LoyaltyProgram'] = data['LoyaltyProgram'].astype(str).str.strip().str.lower()
                     loyalty_map = {'yes': 1, 'no': 0, 'نعم': 1, 'لا': 0, '1': 1, '0': 0, '1.0': 1, '0.0': 0}
                     data['LoyaltyProgram'] = data['LoyaltyProgram'].map(loyalty_map).fillna(0).astype(int)
-                
-                # 5. ملء أي خلايا فارغة في باقي الملف بصفر
                 data = data.fillna(0)
                 return data
 
-            # تطبيق الدالة الصارمة على الملف المرفوع
             df = clean_and_prepare_data(df)
             
             st.write("معاينة سريعة للبيانات بعد المعالجة التلقائية:")
@@ -281,4 +297,4 @@ with tab2:
                                 use_container_width=True
                             )
         except Exception as e:
-            st.error(f"حدث خطأ أثناء قراءة الملف. تأكد من صحة البيانات. تفاصيل الخطأ: {e}")
+            st.error(f"حدث خطأ أثناء معالجة البيانات. تفاصيل الخطأ: {e}")
