@@ -146,8 +146,8 @@ with tab2:
     
     github_files = {
         "اختر ملفاً...": None,
-        "بيانات العملاء (customer_purchase_data)": "customer_purchase_data.csv",
-        "بيانات العملاء الجاهزة (ready_customerData)": "ready_customerData.csv"
+        " (customer_purchase_data)": "customer_purchase_data.csv",
+        " (ready_customerData)": "ready_customerData.csv"
     }
     
     selected_github_file = st.selectbox("الملفات المتاحة في النظام:", options=list(github_files.keys()))
@@ -175,7 +175,7 @@ with tab2:
     sample_csv = sample_data.to_csv(index=False).encode('utf-8')
     
     st.download_button(
-        label="تحميل ملف بيانات تجريبي لاختبار النظام (1000 عميل)",
+        label="تحميل ملف بيانات تجريبي لاختبار النظام",
         data=sample_csv,
         file_name='sample_test_data.csv',
         mime='text/csv',
