@@ -128,18 +128,31 @@ with tab1:
 with tab2:
     st.subheader("تحليل بيانات العملاء دفعة واحدة")
     st.write("قم برفع ملف (CSV أو Excel) يحتوي على بيانات العملاء للحصول على التنبؤات والرسومات البيانية فوراً.")
-    st.info("تنبيه: يجب أن يحتوي الملف على الأعمدة التالية بالترتيب: Age, Gender, AnnualIncome, NumberOfPurchases, ProductCategory, TimeSpentOnWebsite, LoyaltyProgram, DiscountsAvailed سيخضع الملف لعملية معالجة مسبقة  لتهيئته وضمان دقة النتائج" )
+    
+    # الجزء الذي تم تحديث تنسيقه
+    st.info("""
+    تنبيه: يجب أن يحتوي الملف على الأعمدة التالية بالترتيب:
+    
+    Age, Gender, AnnualIncome, NumberOfPurchases, ProductCategory, TimeSpentOnWebsite, LoyaltyProgram, DiscountsAvailed
+    
+    علماً بأنه سوف يتم معالجة الملف لتهيئته وضمان قابليته للمعالجة بنجاح.
+    """)
     
     uploaded_file = st.file_uploader("اختر ملف البيانات", type=['csv', 'xlsx'])
     
     if uploaded_file is not None:
         try:
-            # قراءة الملف
+            # قراءة الملف (المنطق الأصلي كما هو)
             if uploaded_file.name.endswith('.csv'):
                 df = pd.read_csv(uploaded_file)
             else:
                 df = pd.read_excel(uploaded_file)
-
+            
+            # بقية الكود الخاص بك...
+            st.success("تم رفع الملف بنجاح، جاري المعالجة...")
+            
+        except Exception as e:
+            st.error(f"حدث خطأ أثناء قراءة الملف: {e}")
             # ---------------------------------------------------------
             # دالة المعالجة والتنظيف التلقائي (النسخة الصارمة والنهائية)
             # ---------------------------------------------------------
