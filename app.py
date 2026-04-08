@@ -126,10 +126,12 @@ with tab1:
 # التبويب الثاني: رفع وتحليل ملف (النسخة الصارمة للتنظيف)
 # ==========================================
 with tab2:
-    st.subheader("تحليل بيانات العملاء دفعة واحدة")
-    st.write("قم برفع ملف (CSV أو Excel) يحتوي على بيانات العملاء للحصول على التنبؤات والرسومات البيانية فوراً.")
+    # تنسيق العنوان ليكون في المنتصف ومحاذاة النصوص
+    st.markdown("<h3 style='text-align: right;'>تحليل بيانات العملاء دفعة واحدة</h3>", unsafe_allow_ Palmer=True)
     
-    # الجزء الذي تم تحديث تنسيقه
+    st.markdown("<p style='text-align: right;'>قم برفع ملف (CSV أو Excel) يحتوي على بيانات العملاء للحصول على التنبؤات والرسومات البيانية فوراً.</p>", unsafe_allow_html=True)
+    
+    # تنسيق صندوق التنبيه ليكون مرتباً وواضحاً
     st.info("""
     تنبيه: يجب أن يحتوي الملف على الأعمدة التالية بالترتيب:
     
@@ -142,13 +144,11 @@ with tab2:
     
     if uploaded_file is not None:
         try:
-            # قراءة الملف (المنطق الأصلي كما هو)
             if uploaded_file.name.endswith('.csv'):
                 df = pd.read_csv(uploaded_file)
             else:
                 df = pd.read_excel(uploaded_file)
             
-            # بقية الكود الخاص بك...
             st.success("تم رفع الملف بنجاح، جاري المعالجة...")
             
         except Exception as e:
