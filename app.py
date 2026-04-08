@@ -23,7 +23,17 @@ st.markdown("""
         text-align: right;
         font-family: 'Tajawal', sans-serif;
     }
-    
+    /* تثبيت مكان خط التبويبات النشط ومنع القفزة */
+    div[data-baseweb="tab-highlight"] {
+        right: 0 !important;
+        left: auto !important;
+    }
+
+    /* تحسين محاذاة حاوية التبويبات نفسها */
+    div[role="tablist"] {
+        flex-direction: row-reverse !important;
+        justify-content: flex-start !important;
+    }
     .stMarkdown, .stHeader, .stSelectbox, .stNumberInput, .stRadio, .stTabs {
         direction: rtl;
         text-align: right;
