@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -48,8 +49,8 @@ st.markdown("""
         margin-bottom: 2px !important;
     }
 
-    /* تنسيق زر التحليل */
-    .stButton>button {
+    /* تنسيق أزرار التحليل والتحميل */
+    .stButton>button, .stDownloadButton>button {
         width: 100%;
         font-family: 'Tajawal', sans-serif;
         background-color: #4CAF50;
@@ -60,7 +61,7 @@ st.markdown("""
         border: none !important;
         border-radius: 5px;
     }
-    .stButton>button:hover {
+    .stButton>button:hover, .stDownloadButton>button:hover {
         background-color: #388E3C;
         color: white;
     }
@@ -100,8 +101,8 @@ with tab1:
         st.caption("(0: ذكر، 1: أنثى)")
         
         category_input = st.selectbox("فئة المنتج المهتم به", 
-                                     options=[("إلكترونيات", 0), ("ملابس", 1), ("أدوات منزلية", 2), ("تجميل", 3), ("رياضة", 4)], 
-                                     format_func=lambda x: x[0])
+                                      options=[("إلكترونيات", 0), ("ملابس", 1), ("أدوات منزلية", 2), ("تجميل", 3), ("رياضة", 4)], 
+                                      format_func=lambda x: x[0])
         st.caption("(0: إلكترونيات، 1: ملابس، 2: منزلية، 3: تجميل، 4: رياضة)")
         
         loyalty_input = st.radio("مشترك في برنامج الولاء؟", options=[("لا", 0), ("نعم", 1)], format_func=lambda x: x[0])
@@ -130,12 +131,10 @@ with tab1:
 # التبويب الثاني: رفع وتحليل ملف (النسخة الصارمة للتنظيف)
 # ==========================================
 with tab2:
-    # جعل العنوان جهة اليمين
     st.markdown("<h3 style='text-align: right;'>تحليل بيانات العملاء دفعة واحدة</h3>", unsafe_allow_html=True)
     
     st.markdown("<p style='text-align: right;'>قم برفع ملف (CSV أو Excel) يحتوي على بيانات العملاء للحصول على التنبؤات والرسومات البيانية فوراً.</p>", unsafe_allow_html=True)
     
-    # تحديث صيغة التنبيه والتنسيق
     st.info("""
     تنبيه: يجب أن يحتوي الملف على الأعمدة التالية بالترتيب:
     
@@ -146,6 +145,28 @@ with tab2:
     
     uploaded_file = st.file_uploader("اختر ملف البيانات", type=['csv', 'xlsx'])
     
+    # --- إضافة زر توليد الملف التجريبي ---
+    sample_data = pd.DataFrame({
+        'Age': np.random.randint(18, 80, 1000),
+        'Gender': np.random.choice([0, 1], 1000),
+        'AnnualIncome': np.random.randint(10000, 200000, 1000),
+        'NumberOfPurchases': np.random.randint(0, 50, 1000),
+        'ProductCategory': np.random.choice([0, 1, 2, 3, 4], 1000),
+        'TimeSpentOnWebsite': np.random.randint(1, 60, 1000),
+        'LoyaltyProgram': np.random.choice([0, 1], 1000),
+        'DiscountsAvailed': np.random.randint(0, 6, 1000)
+    })
+    sample_csv = sample_data.to_csv(index=False).encode('utf-8')
+    
+    st.download_button(
+        label="تحميل ملف بيانات تجريبي لاختبار النظام (1000 عميل)",
+        data=sample_csv,
+        file_name='sample_test_data.csv',
+        mime='text/csv',
+        use_container_width=True
+    )
+    # -----------------------------------
+
     if uploaded_file is not None:
         try:
             # قراءة الملف
