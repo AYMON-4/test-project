@@ -126,9 +126,19 @@ with tab1:
 # التبويب الثاني: رفع وتحليل ملف (النسخة الصارمة للتنظيف)
 # ==========================================
 with tab2:
-    st.subheader("تحليل بيانات العملاء دفعة واحدة")
-    st.write("قم برفع ملف (CSV أو Excel) يحتوي على بيانات العملاء للحصول على التنبؤات والرسومات البيانية فوراً.")
-    st.info("تنبيه: يجب أن يحتوي الملف على الأعمدة التالية بالترتيب: Age, Gender, AnnualIncome, NumberOfPurchases, ProductCategory, TimeSpentOnWebsite, LoyaltyProgram, DiscountsAvailed")
+    # جعل العنوان جهة اليمين
+    st.markdown("<h3 style='text-align: right;'>تحليل بيانات العملاء دفعة واحدة</h3>", unsafe_allow_html=True)
+    
+    st.markdown("<p style='text-align: right;'>قم برفع ملف (CSV أو Excel) يحتوي على بيانات العملاء للحصول على التنبؤات والرسومات البيانية فوراً.</p>", unsafe_allow_html=True)
+    
+    # تحديث صيغة التنبيه والتنسيق
+    st.info("""
+    تنبيه: يجب أن يحتوي الملف على الأعمدة التالية بالترتيب:
+    
+    Age, Gender, AnnualIncome, NumberOfPurchases, ProductCategory, TimeSpentOnWebsite, LoyaltyProgram, DiscountsAvailed
+    
+    علماً بأنه سوف يتم معالجة الملف لتهيئته وضمان قابليته للمعالجة بنجاح.
+    """)
     
     uploaded_file = st.file_uploader("اختر ملف البيانات", type=['csv', 'xlsx'])
     
@@ -178,8 +188,7 @@ with tab2:
 
             # تطبيق الدالة الصارمة على الملف المرفوع
             df = clean_and_prepare_data(df)
-            # ---------------------------------------------------------
-                
+            
             st.write("معاينة سريعة للبيانات بعد المعالجة التلقائية:")
             st.dataframe(df.head()) 
             
@@ -195,14 +204,12 @@ with tab2:
                     st.error(f"الملف المرفوع ينقصه الأعمدة التالية لكي يعمل النموذج: {', '.join(missing_cols)}")
                 else:
                     with st.spinner('جاري تحليل البيانات وإنشاء الرسومات البيانية...'):
-                        
                         predictions = model.predict(df[expected_cols])
                         df['Purchase_Prediction'] = predictions
                         df['Decision'] = df['Purchase_Prediction'].apply(lambda x: 'سيشتري (1)' if x == 1 else 'لن يشتري (0)')
                         
                         st.success("تم تحليل جميع العملاء بنجاح!")
                         
-                        # قسم الرسومات البيانية
                         st.markdown("<h3 style='text-align: center; margin-top: 30px;'>لوحة التحليل المرئي للبيانات</h3>", unsafe_allow_html=True)
                         st.divider()
 
