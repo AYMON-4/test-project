@@ -22,6 +22,10 @@ st.markdown("""
         direction: rtl;
         text-align: right;
         font-family: 'Tajawal', sans-serif;
+        /* تثبيت مكان خط التبويبات النشط ومنع القفزة */
+    div[data-baseweb="tab-highlight"] {
+        right: 0 !important;
+        left: auto !important;
     }
     
     .stMarkdown, .stHeader, .stSelectbox, .stNumberInput, .stRadio, .stTabs {
