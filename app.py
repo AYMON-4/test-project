@@ -133,7 +133,7 @@ with tab1:
 with tab2:
     st.markdown("<h3 style='text-align: right;'>تحليل بيانات العملاء دفعة واحدة</h3>", unsafe_allow_html=True)
     
-    st.markdown("<p style='text-align: right;'>قم برفع ملف (CSV أو Excel) يحتوي على بيانات العملاء للحصول على التنبؤات والرسومات البيانية فوراً.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: right;'>اختر ملف بيانات العملاء للحصول على التنبؤات والرسومات البيانية فوراً.</p>", unsafe_allow_html=True)
     
     st.info("""
     تنبيه: يجب أن يحتوي الملف على الأعمدة التالية بالترتيب:
@@ -141,10 +141,27 @@ with tab2:
     علماً بأنه سوف يتم معالجة الملف لتهيئته وضمان قابليته للمعالجة بنجاح.
     """)
     
-    # 1. خيار الرفع من الجهاز
-    uploaded_file = st.file_uploader("اختر ملف البيانات من جهازك", type=['csv', 'xlsx'])
+    # 1. خيار التحميل من ملفات GitHub المحفوظة (أصبح في الأعلى)
+    st.markdown("<p style='text-align: right; font-weight: bold;'>1. اختر ملفاً جاهزاً من المستودع:</p>", unsafe_allow_html=True)
     
-    # 2. زر توليد الملف التجريبي
+    github_files = {
+        "اختر ملفاً...": None,
+        "بيانات العملاء (customer_purchase_data)": "customer_purchase_data.csv",
+        "بيانات العملاء الجاهزة (ready_customerData)": "ready_customerData.csv"
+    }
+    
+    selected_github_file = st.selectbox("الملفات المتاحة في النظام:", options=list(github_files.keys()))
+
+    st.markdown("<p style='text-align: center; font-weight: bold; margin-top: 10px;'>أو</p>", unsafe_allow_html=True)
+
+    # 2. خيار الرفع من الجهاز
+    st.markdown("<p style='text-align: right; font-weight: bold;'>2. قم برفع ملف من جهازك:</p>", unsafe_allow_html=True)
+    uploaded_file = st.file_uploader("اختر ملف البيانات (يُلغي الاختيار من المستودع في حال الرفع)", type=['csv', 'xlsx'])
+    
+    st.divider()
+
+    # 3. زر توليد الملف التجريبي
+    st.markdown("<p style='text-align: right; font-weight: bold;'>لا تملك ملفاً؟ جرب النظام ببيانات عشوائية:</p>", unsafe_allow_html=True)
     sample_data = pd.DataFrame({
         'Age': np.random.randint(18, 80, 1000),
         'Gender': np.random.choice([0, 1], 1000),
@@ -158,7 +175,7 @@ with tab2:
     sample_csv = sample_data.to_csv(index=False).encode('utf-8')
     
     st.download_button(
-        label="تحميل ملف بيانات تجريبي لاختبار النظام",
+        label="تحميل ملف بيانات تجريبي لاختبار النظام (1000 عميل)",
         data=sample_csv,
         file_name='sample_test_data.csv',
         mime='text/csv',
@@ -167,19 +184,7 @@ with tab2:
     
     st.divider()
 
-    # 3. خيار التحميل من ملفات GitHub المحفوظة
-    st.markdown("<p style='text-align: right; font-weight: bold;'>أو اختر ملفاً جاهزاً من المستودع:</p>", unsafe_allow_html=True)
-    
-    # قائمة بالملفات الموجودة في جيت هاب بناءً على الصورة
-    github_files = {
-        "اختر ملفاً...": None,
-        "بيانات العملاء (customer_purchase_data)": "customer_purchase_data.csv",
-        "بيانات العملاء الجاهزة (ready_customerData)": "ready_customerData.csv"
-    }
-    
-    selected_github_file = st.selectbox("الملفات المتاحة في النظام:", options=list(github_files.keys()))
-
-    # --- تحديد مصدر البيانات (من الرفع أو من جيت هاب) ---
+    # --- تحديد مصدر البيانات (الأولوية للملف المرفوع ثم لملفات جيت هاب) ---
     df = None
     
     if uploaded_file is not None:
