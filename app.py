@@ -158,7 +158,7 @@ with tab2:
     sample_csv = sample_data.to_csv(index=False).encode('utf-8')
     
     st.download_button(
-        label="تحميل ملف بيانات تجريبي لاختبار النظام (1000 عميل)",
+        label="تحميل ملف بيانات تجريبي لاختبار النظام",
         data=sample_csv,
         file_name='sample_test_data.csv',
         mime='text/csv',
