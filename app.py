@@ -369,7 +369,7 @@ if page == "🛒 التطبيق الرئيسي":
                             st.pyplot(fig3)
 
                             st.divider()
-                            st.write("البيانات النهائية بعد التحليل (بدون الأعمدة الإضافية):")
+                            st.write("البيانات النهائية بعد التحليل :")
                             
                             # --- تحديد الأعمدة المطلوبة فقط (الداتا + النتيجة) ---
                             final_cols = expected_cols + ['Purchase_Prediction', 'Decision']
