@@ -31,10 +31,38 @@ st.markdown("""
         font-family: 'Tajawal', sans-serif;
     }
 
-    /* تثبيت مكان خط التبويبات النشط ومنع القفزة */
+   /* === تنسيق التبويبات (Tabs) لتصبح مثل الأزرار الكبيرة والواضحة === */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 15px; /* مسافة بين الأزرار */
+        margin-bottom: 20px;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        background-color: rgba(128, 128, 128, 0.1) !important;
+        border-radius: 8px !important;
+        padding: 12px 25px !important;
+        font-size: 1.2em !important;
+        font-weight: bold !important;
+        border: 1px solid rgba(128, 128, 128, 0.2) !important;
+        height: auto !important;
+        transition: all 0.3s ease;
+    }
+    
+    /* تأثير عند تمرير الماوس على التبويب غير النشط */
+    .stTabs [data-baseweb="tab"]:hover {
+        background-color: rgba(76, 175, 80, 0.15) !important; 
+    }
+    
+    /* شكل التبويب النشط (المفتوح حالياً) */
+    .stTabs [aria-selected="true"] {
+        background-color: #4CAF50 !important; /* لون أخضر مميز للزر النشط */
+        color: white !important;
+        border-color: #4CAF50 !important;
+    }
+    
+    /* إخفاء الخط السفلي الافتراضي لأننا حولناها لأزرار فعلية */
     div[data-baseweb="tab-highlight"] {
-        right: 0 !important;
-        left: auto !important;
+        display: none !important;
     }
     
     .stMarkdown, .stHeader, .stSelectbox, .stNumberInput, .stRadio, .stTabs {
