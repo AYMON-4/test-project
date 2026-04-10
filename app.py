@@ -166,7 +166,7 @@ if page == "🛒 التطبيق الرئيسي":
     )
 # --- إضافة توقيع المطور أسفل القائمة الجانبية ---
     st.sidebar.markdown("<br><br><br>", unsafe_allow_html=True)
-    st.sidebar.markdown("<p style='text-align: center; color: gray; font-size: 14px;'>تم التطوير بواسطة: AYMO_ON © 2024</p>", unsafe_allow_html=True)
+    st.sidebar.markdown("<p style='text-align: center; color: gray; font-size: 14px;'>تم التطوير بواسطة: AYMO_ON © 2026</p>", unsafe_allow_html=True)
 # ==========================================
 # الصفحة الأولى: التطبيق الرئيسي
 # ==========================================
