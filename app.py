@@ -105,6 +105,7 @@ if page == "🛒 التطبيق الرئيسي":
     tab1, tab2 = st.tabs(["إدخال يدوي (عميل واحد)", "تحليل ملف (عملاء متعددين)"])
 
     # --- التبويب الأول ---
+    # --- التبويب الأول ---
     with tab1:
         col1, col2 = st.columns(2, gap="large")
 
@@ -152,6 +153,30 @@ if page == "🛒 التطبيق الرئيسي":
                 st.warning("النتيجة: من المتوقع عدم إتمام عملية الشراء (0)")
                 st.info("اقتراح تسويقي: العميل لا يزال يتصفح، ركز على تحسين تجربة التصفح بدون إزعاجه.")
 
+        # --- إضافة زر تحميل الملف التجريبي في التبويب الأول ---
+        st.divider()
+        st.markdown("<p style='text-align: right; font-weight: bold;'>تريد تجربة تحليل آلاف العملاء دفعة واحدة؟ جرب النظام ببيانات عشوائية:</p>", unsafe_allow_html=True)
+        
+        sample_data_tab1 = pd.DataFrame({
+            'Age': np.random.randint(18, 80, 1000),
+            'Gender': np.random.choice([0, 1], 1000),
+            'AnnualIncome': np.random.randint(10000, 200000, 1000),
+            'NumberOfPurchases': np.random.randint(0, 50, 1000),
+            'ProductCategory': np.random.choice([0, 1, 2, 3, 4], 1000),
+            'TimeSpentOnWebsite': np.random.randint(1, 60, 1000),
+            'LoyaltyProgram': np.random.choice([0, 1], 1000),
+            'DiscountsAvailed': np.random.randint(0, 6, 1000)
+        })
+        sample_csv_tab1 = sample_data_tab1.to_csv(index=False).encode('utf-8')
+        
+        st.download_button(
+            label="تحميل ملف بيانات تجريبي لاختبار النظام",
+            data=sample_csv_tab1,
+            file_name='sample_test_data.csv',
+            mime='text/csv',
+            use_container_width=True,
+            key='download_sample_tab1' # ضروري عشان ميتعارضش مع الزرار اللي في التبويب التاني
+        )
     # --- التبويب الثاني ---
     with tab2:
         st.markdown("<h3 style='text-align: right;'>تحليل بيانات العملاء دفعة واحدة</h3>", unsafe_allow_html=True)
