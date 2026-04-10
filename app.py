@@ -5,12 +5,15 @@ import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# 1. تحميل النموذج المحفوظ
+# 1. تحميل النموذج المحفوظ (مع تسريع الذاكرة)
+@st.cache_resource
+def load_model():
+    return joblib.load('purchase_model.pkl')
+
 try:
-    model = joblib.load('purchase_model.pkl')
+    model = load_model()
 except:
     st.error("تنبيه: تأكد من وجود ملف purchase_model.pkl في نفس المجلد")
-
 # إعدادات الصفحة
 st.set_page_config(page_title="نظام التنبؤ بسلوك المشتري", layout="wide", page_icon="🛒")
 
@@ -134,6 +137,8 @@ st.sidebar.markdown("<h2 style='text-align: center;'>القائمة الرئيس
 page = st.sidebar.radio("اختر الصفحة:", ["🛒 التطبيق الرئيسي", "📖 شرح الموقع"])
 st.sidebar.divider()
 st.sidebar.info("هذا النظام مدعوم بتقنيات تعلم الآلة (Machine Learning) لتحليل بيانات العملاء بدقة.")
+st.sidebar.markdown("<br><br><br>", unsafe_allow_html=True) # مسافة لتحت
+    st.sidebar.markdown("<p style='text-align: center; color: gray; font-size: 14px;'>تم التطوير بواسطة: [اسمك/فريقك هنا] © 2024</p>", unsafe_allow_html=True)
 
 # --- وضع زر تحميل الملف التجريبي في القائمة الجانبية ---
 if page == "🛒 التطبيق الرئيسي":
@@ -317,6 +322,19 @@ if page == "🛒 التطبيق الرئيسي":
                             df['Decision'] = df['Purchase_Prediction'].apply(lambda x: 'سيشتري (1)' if x == 1 else 'لن يشتري (0)')
                             
                             st.success("تم تحليل جميع العملاء بنجاح!")
+                            # --- إضافة بطاقات الإحصائيات (KPIs) ---
+                            total_customers = len(df)
+                            buyers = int(df['Purchase_Prediction'].sum())
+                            conversion_rate = (buyers / total_customers) * 100
+                            
+                            st.markdown("<br>", unsafe_allow_html=True)
+                            kpi1, kpi2, kpi3 = st.columns(3)
+                            
+                            kpi1.metric(label="👥 إجمالي العملاء", value=f"{total_customers}")
+                            kpi2.metric(label="🛍️ سيقومون بالشراء", value=f"{buyers}", delta="عميل محتمل")
+                            kpi3.metric(label="📈 معدل التحويل المتوقع", value=f"{conversion_rate:.1f}%")
+                            st.divider()
+                            # -----------------------------------
                             
                             st.markdown("<h3 style='text-align: center; margin-top: 30px;'>لوحة التحليل المرئي للبيانات</h3>", unsafe_allow_html=True)
                             st.divider()
