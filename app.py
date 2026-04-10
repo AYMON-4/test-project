@@ -369,16 +369,23 @@ if page == "🛒 التطبيق الرئيسي":
                             st.pyplot(fig3)
 
                             st.divider()
-                            st.write("البيانات النهائية بعد التحليل:")
-                            st.dataframe(df) 
+                            st.write("البيانات النهائية بعد التحليل (بدون الأعمدة الإضافية):")
                             
-                            csv = df.to_csv(index=False).encode('utf-8')
+                            # --- تحديد الأعمدة المطلوبة فقط (الداتا + النتيجة) ---
+                            final_cols = expected_cols + ['Purchase_Prediction', 'Decision']
+                            df_final = df[final_cols]
+                            
+                            # عرض الجدول النظيف
+                            st.dataframe(df_final) 
+                            
+                            # تجهيز الجدول النظيف للتحميل
+                            csv = df_final.to_csv(index=False).encode('utf-8')
                             col_dl1, col_dl2, col_dl3 = st.columns([1, 2, 1])
                             with col_dl2:
                                 st.download_button(
                                     label="تحميل النتائج كملف CSV",
                                     data=csv,
-                                    file_name='predictions_results.csv',
+                                    file_name='predictions_results_cleaned.csv',
                                     mime='text/csv',
                                     use_container_width=True
                                 )
