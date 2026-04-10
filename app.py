@@ -19,21 +19,16 @@ st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
     
-    html, body, .main, .stApp {
+    /* 1. الحفاظ على الهيكل الأساسي لتجنب انفصال الأزرار عن القائمة */
+    .stApp {
+        direction: ltr;
+    }
+    
+    /* 2. تطبيق الاتجاه العربي (RTL) على المحتوى فقط (الصفحة الرئيسية والقائمة) */
+    .main, [data-testid="stSidebar"] > div {
         direction: rtl;
         text-align: right;
         font-family: 'Tajawal', sans-serif;
-    }
-    
-    /* === نقل القائمة الجانبية لليمين بالكامل === */
-    [data-testid="stAppViewContainer"] {
-        flex-direction: row-reverse;
-    }
-    
-    /* === نقل زر فتح القائمة (الهمبرجر) لليمين === */
-    [data-testid="collapsedControl"] {
-        right: 0 !important;
-        left: auto !important;
     }
 
     /* تثبيت مكان خط التبويبات النشط ومنع القفزة */
@@ -43,12 +38,6 @@ st.markdown("""
     }
     
     .stMarkdown, .stHeader, .stSelectbox, .stNumberInput, .stRadio, .stTabs {
-        direction: rtl;
-        text-align: right;
-    }
-
-    /* تنسيق القائمة الجانبية من الداخل */
-    [data-testid="stSidebar"] {
         direction: rtl;
         text-align: right;
     }
