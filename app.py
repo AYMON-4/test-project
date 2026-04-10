@@ -164,8 +164,7 @@ if page == "🛒 التطبيق الرئيسي":
         use_container_width=True,
         key='download_sample_sidebar'
     )
-st.sidebar.markdown("<br><br><br>", unsafe_allow_html=True) # مسافة لتحت
-    st.sidebar.markdown("<p style='text-align: center; color: gray; font-size: 14px;'>تم التطوير بواسطة: [اسمك/فريقك هنا] © 2024</p>", unsafe_allow_html=True)
+
 # ==========================================
 # الصفحة الأولى: التطبيق الرئيسي
 # ==========================================
