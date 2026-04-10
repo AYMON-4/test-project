@@ -111,6 +111,28 @@ st.markdown("""
         border-right: 5px solid #4CAF50;
         margin-bottom: 20px;
     }
+    /* === إزالة المسافات الزائدة حول العنوان والوصف === */
+    /* إخفاء علامة اللينك (Anchor) التي تظهر بجانب العناوين */
+    .stMarkdown h1 a {
+        display: none !important;
+    }
+    
+    /* تقليل الهوامش (Margins) للعنوان الرئيسي */
+    .stMarkdown h1 {
+        margin-top: 0rem !important;
+        padding-top: 0rem !important;
+        margin-bottom: 0.2rem !important; /* مسافة صغيرة جداً تحت العنوان */
+    }
+    
+    /* تقليل الهوامش لفقرة الوصف */
+    .stMarkdown p {
+        margin-bottom: 0.5rem !important; 
+    }
+    
+    /* إزالة المسافة العلوية الافتراضية لأول عنصر في الصفحة */
+    .block-container {
+        padding-top: 2rem !important; 
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -125,10 +147,11 @@ st.sidebar.info("هذا النظام مدعوم بتقنيات تعلم الآل
 # ==========================================
 if page == "🛒 التطبيق الرئيسي":
     # --- الواجهة الرئيسية ---
-    st.markdown("<h1 style='text-align: center;'>نظام التنبؤ بسلوك المشتري</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; font-size: 18px;'>اختر طريقة الإدخال المناسبة لتحليل احتمالية الشراء</p>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; margin-bottom: 0px;'>نظام التنبؤ بسلوك المشتري</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; font-size: 18px; margin-top: 5px; margin-bottom: 10px;'>اختر طريقة الإدخال المناسبة لتحليل احتمالية الشراء</p>", unsafe_allow_html=True)
 
-    st.divider()
+    # قللنا المسافة اللي بيعملها الفاصل 
+    st.markdown("<hr style='margin-top: 0px; margin-bottom: 15px; border: none; border-top: 1px solid rgba(128,128,128,0.2);'>", unsafe_allow_html=True)
 
     # --- تقسيم الواجهة لتبويبات (Tabs) ---
     tab1, tab2 = st.tabs(["إدخال يدوي (عميل واحد)", "تحليل ملف (عملاء متعددين)"])
