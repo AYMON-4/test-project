@@ -164,7 +164,9 @@ if page == "🛒 التطبيق الرئيسي":
         use_container_width=True,
         key='download_sample_sidebar'
     )
-
+# --- إضافة توقيع المطور أسفل القائمة الجانبية ---
+    st.sidebar.markdown("<br><br><br>", unsafe_allow_html=True)
+    st.sidebar.markdown("<p style='text-align: center; color: gray; font-size: 14px;'>تم التطوير بواسطة: AYMO_ON © 2024</p>", unsafe_allow_html=True)
 # ==========================================
 # الصفحة الأولى: التطبيق الرئيسي
 # ==========================================
@@ -242,8 +244,8 @@ if page == "🛒 التطبيق الرئيسي":
         
         github_files = {
             "اختر ملفاً...": None,
-            "بيانات العملاء (customer_purchase_data)": "customer_purchase_data.csv",
-            "بيانات العملاء الجاهزة (ready_customerData)": "ready_customerData.csv"
+            " (customer_purchase_data)": "customer_purchase_data.csv",
+            " (ready_customerData)": "ready_customerData.csv"
         }
         
         selected_github_file = st.selectbox("الملفات المتاحة في النظام:", options=list(github_files.keys()))
