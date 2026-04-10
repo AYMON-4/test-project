@@ -74,19 +74,13 @@ st.markdown("""
         color: white;
     }
     
-   /* تنسيق بطاقات الشرح تتأقلم مع الوضع المظلم والفاتح أوتوماتيكياً */
+   /* تنسيق بطاقات الشرح (الحل النهائي للدارك واللايت) */
     .info-card {
-        background-color: var(--secondary-background-color, #f8f9fa);
-        color: var(--text-color, #111) !important;
+        background-color: rgba(128, 128, 128, 0.15); /* خلفية شفافة تليق مع أي ثيم */
         padding: 20px;
         border-radius: 10px;
         border-right: 5px solid #4CAF50;
         margin-bottom: 20px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    
-    .info-card h3, .info-card p, .info-card li, .info-card b {
-        color: var(--text-color, #111) !important; 
     }
     </style>
     """, unsafe_allow_html=True)
