@@ -87,7 +87,7 @@ st.markdown("""
 
 # --- القائمة الجانبية للتنقل ---
 st.sidebar.markdown("<h2 style='text-align: center;'>القائمة الرئيسية</h2>", unsafe_allow_html=True)
-page = st.sidebar.radio("اختر الصفحة:", ["🛒 التطبيق الرئيسي", "📖 عن النظام (شرح الموقع)"])
+page = st.sidebar.radio("اختر الصفحة:", ["🛒 التطبيق الرئيسي", "📖 شرح الموقع"])
 st.sidebar.divider()
 st.sidebar.info("هذا النظام مدعوم بتقنيات تعلم الآلة (Machine Learning) لتحليل بيانات العملاء بدقة.")
 
