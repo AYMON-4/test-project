@@ -12,7 +12,7 @@ except:
     st.error("تنبيه: تأكد من وجود ملف purchase_model.pkl في نفس المجلد")
 
 # إعدادات الصفحة
-st.set_page_config(page_title="نظام التنبؤ بسلوك المشتري", layout="centered", page_icon="🛒")
+st.set_page_config(page_title="نظام التنبؤ بسلوك المشتري", layout="wide", page_icon="🛒")
 
 # كود CSS لضبط الاتجاه وتنسيق الواجهة
 st.markdown("""
