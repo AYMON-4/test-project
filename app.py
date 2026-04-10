@@ -111,27 +111,20 @@ st.markdown("""
         border-right: 5px solid #4CAF50;
         margin-bottom: 20px;
     }
-    /* === إزالة المسافات الزائدة حول العنوان والوصف === */
-    /* إخفاء علامة اللينك (Anchor) التي تظهر بجانب العناوين */
-    .stMarkdown h1 a {
+    /* === إزالة المسافات الزائدة حول العنوان والوصف وضبط التوسيط === */
+    
+    /* إخفاء علامة اللينك (Anchor) بالكامل من الوجود عشان متبوظش التوسيط */
+    .stMarkdown h1 a.anchor-link {
         display: none !important;
     }
     
-    /* تقليل الهوامش (Margins) للعنوان الرئيسي */
+    /* تقليل الهوامش وضبط المحاذاة للعنوان الرئيسي */
     .stMarkdown h1 {
         margin-top: 0rem !important;
         padding-top: 0rem !important;
-        margin-bottom: 0.2rem !important; /* مسافة صغيرة جداً تحت العنوان */
-    }
-    
-    /* تقليل الهوامش لفقرة الوصف */
-    .stMarkdown p {
-        margin-bottom: 0.5rem !important; 
-    }
-    
-    /* إزالة المسافة العلوية الافتراضية لأول عنصر في الصفحة */
-    .block-container {
-        padding-top: 2rem !important; 
+        margin-bottom: 0.2rem !important;
+        text-align: center !important; /* إجبار التوسيط */
+        width: 100% !important; /* جعل العرض 100% عشان يتسنتر صح */
     }
     </style>
     """, unsafe_allow_html=True)
@@ -147,7 +140,7 @@ st.sidebar.info("هذا النظام مدعوم بتقنيات تعلم الآل
 # ==========================================
 if page == "🛒 التطبيق الرئيسي":
     # --- الواجهة الرئيسية ---
-    st.markdown("<h1 style='text-align: center; margin-top: 10px; margin-bottom: 0px;'>نظام التنبؤ بسلوك المشتري</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; margin-bottom: 0px;'>نظام التنبؤ بسلوك المشتري</h1>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; font-size: 18px; margin-top: 5px; margin-bottom: 10px;'>اختر طريقة الإدخال المناسبة لتحليل احتمالية الشراء</p>", unsafe_allow_html=True)
 
     # قللنا المسافة اللي بيعملها الفاصل 
