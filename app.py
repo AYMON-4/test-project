@@ -147,7 +147,7 @@ st.sidebar.info("هذا النظام مدعوم بتقنيات تعلم الآل
 # ==========================================
 if page == "🛒 التطبيق الرئيسي":
     # --- الواجهة الرئيسية ---
-    st.markdown("<h1 style='text-align: center;margin-top: 10px margin-bottom: 0px;'>نظام التنبؤ بسلوك المشتري</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; margin-top: 10px; margin-bottom: 0px;'>نظام التنبؤ بسلوك المشتري</h1>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; font-size: 18px; margin-top: 5px; margin-bottom: 10px;'>اختر طريقة الإدخال المناسبة لتحليل احتمالية الشراء</p>", unsafe_allow_html=True)
 
     # قللنا المسافة اللي بيعملها الفاصل 
