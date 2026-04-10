@@ -25,6 +25,17 @@ st.markdown("""
         font-family: 'Tajawal', sans-serif;
     }
     
+    /* === نقل القائمة الجانبية لليمين بالكامل === */
+    [data-testid="stAppViewContainer"] {
+        flex-direction: row-reverse;
+    }
+    
+    /* === نقل زر فتح القائمة (الهمبرجر) لليمين === */
+    [data-testid="collapsedControl"] {
+        right: 0 !important;
+        left: auto !important;
+    }
+
     /* تثبيت مكان خط التبويبات النشط ومنع القفزة */
     div[data-baseweb="tab-highlight"] {
         right: 0 !important;
@@ -36,13 +47,13 @@ st.markdown("""
         text-align: right;
     }
 
-    /* تنسيق القائمة الجانبية */
+    /* تنسيق القائمة الجانبية من الداخل */
     [data-testid="stSidebar"] {
         direction: rtl;
         text-align: right;
     }
 
-    /* === إصلاح مشكلة السلايدر === */
+    /* إصلاح مشكلة السلايدر */
     .stSlider {
         direction: rtl;
         text-align: right;
@@ -74,9 +85,9 @@ st.markdown("""
         color: white;
     }
     
-   /* تنسيق بطاقات الشرح (الحل النهائي للدارك واللايت) */
+    /* تنسيق بطاقات الشرح تتأقلم مع الوضع المظلم والفاتح أوتوماتيكياً */
     .info-card {
-        background-color: rgba(128, 128, 128, 0.15); /* خلفية شفافة تليق مع أي ثيم */
+        background-color: rgba(128, 128, 128, 0.15);
         padding: 20px;
         border-radius: 10px;
         border-right: 5px solid #4CAF50;
