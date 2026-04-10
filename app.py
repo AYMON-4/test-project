@@ -35,6 +35,7 @@ st.markdown("""
     .stTabs [data-baseweb="tab-list"] {
         gap: 15px; /* مسافة بين الأزرار */
         margin-bottom: 20px;
+        justify-content: center !important;
     }
     
     .stTabs [data-baseweb="tab"] {
