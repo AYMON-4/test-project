@@ -138,7 +138,7 @@ st.sidebar.info("هذا النظام مدعوم بتقنيات تعلم الآل
 # --- وضع زر تحميل الملف التجريبي في القائمة الجانبية ---
 if page == "🛒 التطبيق الرئيسي":
     st.sidebar.markdown("<br>", unsafe_allow_html=True)
-    st.sidebar.markdown("<p style='text-align: right; font-weight: bold;'>تريد تجربة التحليل المجمع؟<br>حمل بيانات عشوائية لاختبار النظام:</p>", unsafe_allow_html=True)
+    st.sidebar.markdown("<p style='text-align: right; font-weight: bold;'>تريد تجربة التحليل و لا تملك بيانات؟<br>حمل بيانات عشوائية لاختبار النظام:</p>", unsafe_allow_html=True)
     
     sample_data_sidebar = pd.DataFrame({
         'Age': np.random.randint(18, 80, 1000),
