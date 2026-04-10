@@ -111,8 +111,8 @@ st.markdown("""
         border-right: 5px solid #4CAF50;
         margin-bottom: 20px;
     }
-    /* === إزالة المسافات الزائدة حول العنوان والوصف وضبط التوسيط === */
     
+    /* === إزالة المسافات الزائدة حول العنوان والوصف وضبط التوسيط === */
     /* إخفاء علامة اللينك (Anchor) بالكامل من الوجود عشان متبوظش التوسيط */
     .stMarkdown h1 a.anchor-link {
         display: none !important;
@@ -135,6 +135,12 @@ page = st.sidebar.radio("اختر الصفحة:", ["🛒 التطبيق الرئ
 st.sidebar.divider()
 st.sidebar.info("هذا النظام مدعوم بتقنيات تعلم الآلة (Machine Learning) لتحليل بيانات العملاء بدقة.")
 
+# --- إضافة زر التحليل المجمع هنا في القائمة الجانبية ---
+bulk_predict_btn = False
+if page == "🛒 التطبيق الرئيسي":
+    st.sidebar.markdown("<br>", unsafe_allow_html=True) # مسافة لترتيب الشكل
+    bulk_predict_btn = st.sidebar.button("🚀 بدء تحليل الملف بالكامل", key="bulk_predict", use_container_width=True)
+
 # ==========================================
 # الصفحة الأولى: التطبيق الرئيسي
 # ==========================================
@@ -149,7 +155,6 @@ if page == "🛒 التطبيق الرئيسي":
     # --- تقسيم الواجهة لتبويبات (Tabs) ---
     tab1, tab2 = st.tabs(["إدخال يدوي (عميل واحد)", "تحليل ملف (عملاء متعددين)"])
 
-   
     # --- التبويب الأول ---
     with tab1:
         col1, col2 = st.columns(2, gap="large")
@@ -220,8 +225,9 @@ if page == "🛒 التطبيق الرئيسي":
             file_name='sample_test_data.csv',
             mime='text/csv',
             use_container_width=True,
-            key='download_sample_tab1' # ضروري عشان ميتعارضش مع الزرار اللي في التبويب التاني
+            key='download_sample_tab1'
         )
+
     # --- التبويب الثاني ---
     with tab2:
         st.markdown("<h3 style='text-align: right;'>تحليل بيانات العملاء دفعة واحدة</h3>", unsafe_allow_html=True)
@@ -291,6 +297,10 @@ if page == "🛒 التطبيق الرئيسي":
             except Exception as e:
                 st.error(f"لم يتم العثور على الملف '{file_path}' في المستودع. تأكد من رفعه إلى GitHub بجانب ملف app.py")
 
+        # رسالة تنبيه لو المستخدم داس على الزرار من القائمة وهو لسه مختارش ملف
+        if bulk_predict_btn and df is None:
+            st.error("⚠️ يرجى رفع أو اختيار ملف بيانات أولاً قبل الضغط على بدء التحليل.")
+
         if df is not None:
             try:
                 def clean_and_prepare_data(data):
@@ -322,10 +332,7 @@ if page == "🛒 التطبيق الرئيسي":
                 st.write("معاينة سريعة للبيانات بعد المعالجة التلقائية:")
                 st.dataframe(df.head()) 
                 
-                col_bulk1, col_bulk2, col_bulk3 = st.columns([1, 2, 1])
-                with col_bulk2:
-                    bulk_predict_btn = st.button("بدء تحليل الملف بالكامل", key="bulk_predict", use_container_width=True)
-
+                # استخدام الزرار اللي في القائمة الجانبية لتشغيل التحليل
                 if bulk_predict_btn:
                     expected_cols = ['Age', 'Gender', 'AnnualIncome', 'NumberOfPurchases', 'ProductCategory', 'TimeSpentOnWebsite', 'LoyaltyProgram', 'DiscountsAvailed']
                     missing_cols = [col for col in expected_cols if col not in df.columns]
