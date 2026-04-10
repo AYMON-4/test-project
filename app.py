@@ -135,11 +135,31 @@ page = st.sidebar.radio("اختر الصفحة:", ["🛒 التطبيق الرئ
 st.sidebar.divider()
 st.sidebar.info("هذا النظام مدعوم بتقنيات تعلم الآلة (Machine Learning) لتحليل بيانات العملاء بدقة.")
 
-# --- إضافة زر التحليل المجمع هنا في القائمة الجانبية ---
-bulk_predict_btn = False
+# --- وضع زر تحميل الملف التجريبي في القائمة الجانبية ---
 if page == "🛒 التطبيق الرئيسي":
-    st.sidebar.markdown("<br>", unsafe_allow_html=True) # مسافة لترتيب الشكل
-    bulk_predict_btn = st.sidebar.button("🚀 بدء تحليل الملف بالكامل", key="bulk_predict", use_container_width=True)
+    st.sidebar.markdown("<br>", unsafe_allow_html=True)
+    st.sidebar.markdown("<p style='text-align: right; font-weight: bold;'>تريد تجربة التحليل المجمع؟<br>حمل بيانات عشوائية لاختبار النظام:</p>", unsafe_allow_html=True)
+    
+    sample_data_sidebar = pd.DataFrame({
+        'Age': np.random.randint(18, 80, 1000),
+        'Gender': np.random.choice([0, 1], 1000),
+        'AnnualIncome': np.random.randint(10000, 200000, 1000),
+        'NumberOfPurchases': np.random.randint(0, 50, 1000),
+        'ProductCategory': np.random.choice([0, 1, 2, 3, 4], 1000),
+        'TimeSpentOnWebsite': np.random.randint(1, 60, 1000),
+        'LoyaltyProgram': np.random.choice([0, 1], 1000),
+        'DiscountsAvailed': np.random.randint(0, 6, 1000)
+    })
+    sample_csv_sidebar = sample_data_sidebar.to_csv(index=False).encode('utf-8')
+    
+    st.sidebar.download_button(
+        label="📥 تحميل ملف بيانات تجريبي",
+        data=sample_csv_sidebar,
+        file_name='sample_test_data.csv',
+        mime='text/csv',
+        use_container_width=True,
+        key='download_sample_sidebar'
+    )
 
 # ==========================================
 # الصفحة الأولى: التطبيق الرئيسي
@@ -203,31 +223,6 @@ if page == "🛒 التطبيق الرئيسي":
                 st.warning("النتيجة: من المتوقع عدم إتمام عملية الشراء (0)")
                 st.info("اقتراح تسويقي: العميل لا يزال يتصفح، ركز على تحسين تجربة التصفح بدون إزعاجه.")
 
-        # --- إضافة زر تحميل الملف التجريبي في التبويب الأول ---
-        st.divider()
-        st.markdown("<p style='text-align: right; font-weight: bold;'>تريد تجربة تحليل آلاف العملاء دفعة واحدة؟ جرب النظام ببيانات عشوائية:</p>", unsafe_allow_html=True)
-        
-        sample_data_tab1 = pd.DataFrame({
-            'Age': np.random.randint(18, 80, 1000),
-            'Gender': np.random.choice([0, 1], 1000),
-            'AnnualIncome': np.random.randint(10000, 200000, 1000),
-            'NumberOfPurchases': np.random.randint(0, 50, 1000),
-            'ProductCategory': np.random.choice([0, 1, 2, 3, 4], 1000),
-            'TimeSpentOnWebsite': np.random.randint(1, 60, 1000),
-            'LoyaltyProgram': np.random.choice([0, 1], 1000),
-            'DiscountsAvailed': np.random.randint(0, 6, 1000)
-        })
-        sample_csv_tab1 = sample_data_tab1.to_csv(index=False).encode('utf-8')
-        
-        st.download_button(
-            label="تحميل ملف بيانات تجريبي لاختبار النظام",
-            data=sample_csv_tab1,
-            file_name='sample_test_data.csv',
-            mime='text/csv',
-            use_container_width=True,
-            key='download_sample_tab1'
-        )
-
     # --- التبويب الثاني ---
     with tab2:
         st.markdown("<h3 style='text-align: right;'>تحليل بيانات العملاء دفعة واحدة</h3>", unsafe_allow_html=True)
@@ -256,29 +251,6 @@ if page == "🛒 التطبيق الرئيسي":
         
         st.divider()
 
-        st.markdown("<p style='text-align: right; font-weight: bold;'>لا تملك ملفاً؟ جرب النظام ببيانات عشوائية:</p>", unsafe_allow_html=True)
-        sample_data = pd.DataFrame({
-            'Age': np.random.randint(18, 80, 1000),
-            'Gender': np.random.choice([0, 1], 1000),
-            'AnnualIncome': np.random.randint(10000, 200000, 1000),
-            'NumberOfPurchases': np.random.randint(0, 50, 1000),
-            'ProductCategory': np.random.choice([0, 1, 2, 3, 4], 1000),
-            'TimeSpentOnWebsite': np.random.randint(1, 60, 1000),
-            'LoyaltyProgram': np.random.choice([0, 1], 1000),
-            'DiscountsAvailed': np.random.randint(0, 6, 1000)
-        })
-        sample_csv = sample_data.to_csv(index=False).encode('utf-8')
-        
-        st.download_button(
-            label="تحميل ملف بيانات تجريبي لاختبار النظام",
-            data=sample_csv,
-            file_name='sample_test_data.csv',
-            mime='text/csv',
-            use_container_width=True
-        )
-        
-        st.divider()
-
         df = None
         
         if uploaded_file is not None:
@@ -296,10 +268,6 @@ if page == "🛒 التطبيق الرئيسي":
                     df = pd.read_excel(file_path)
             except Exception as e:
                 st.error(f"لم يتم العثور على الملف '{file_path}' في المستودع. تأكد من رفعه إلى GitHub بجانب ملف app.py")
-
-        # رسالة تنبيه لو المستخدم داس على الزرار من القائمة وهو لسه مختارش ملف
-        if bulk_predict_btn and df is None:
-            st.error("⚠️ يرجى رفع أو اختيار ملف بيانات أولاً قبل الضغط على بدء التحليل.")
 
         if df is not None:
             try:
@@ -332,7 +300,10 @@ if page == "🛒 التطبيق الرئيسي":
                 st.write("معاينة سريعة للبيانات بعد المعالجة التلقائية:")
                 st.dataframe(df.head()) 
                 
-                # استخدام الزرار اللي في القائمة الجانبية لتشغيل التحليل
+                col_bulk1, col_bulk2, col_bulk3 = st.columns([1, 2, 1])
+                with col_bulk2:
+                    bulk_predict_btn = st.button("بدء تحليل الملف بالكامل", key="bulk_predict", use_container_width=True)
+
                 if bulk_predict_btn:
                     expected_cols = ['Age', 'Gender', 'AnnualIncome', 'NumberOfPurchases', 'ProductCategory', 'TimeSpentOnWebsite', 'LoyaltyProgram', 'DiscountsAvailed']
                     missing_cols = [col for col in expected_cols if col not in df.columns]
